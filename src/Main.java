@@ -10,17 +10,21 @@ public class Main {
     public  static BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
     public static void main(String[] args) throws  IOException{
         Main main=new Main();
-        System.out.print("Enter the no of records to be inserted : ");
-        int count=1;
-        try{
-             count=Integer.parseInt(bufferedReader.readLine());
-        }catch (Exception ex){
-            System.out.println(ex.fillInStackTrace()+", Invalid Details");
-            System.out.print("Please Enter Valid Input : ");
-            count=Integer.parseInt(bufferedReader.readLine());
-        }finally {
-            System.out.println("Great !! you have Entered Valid input");
-        }
+        int count=-1;
+        do {
+            try{
+                 System.out.print("Enter the no of records to be inserted : ");
+                 count=Integer.parseInt(bufferedReader.readLine());
+            }catch (Exception ex){
+                System.out.println(ex.fillInStackTrace()+", Invalid Details");
+            }finally {
+                if (count==-1){
+                    System.out.println("Sorry !! you have Entered Invalid Valid input");
+                }else{
+                    System.out.println("Great !! you have Entered Valid input");
+                }
+            }
+        }while (count==-1);
         main.insertRoomDetails(count);
         System.out.println("\n");
         main.displayRoomDetails();
@@ -32,7 +36,7 @@ public class Main {
         for (int i=0;i<count;i++) {
             Price room = new Price();
             StringBuilder builder=new StringBuilder("HRI");
-            StringBuilder priceId=new StringBuilder("HRP");
+            StringBuffer priceId=new StringBuffer("HRP");
             System.out.println((i + 1) + ". Enter the Room Detail : ");
             System.out.print("Enter The Room Id                     : ");
             builder.append(bufferedReader.readLine());
@@ -41,32 +45,38 @@ public class Main {
             room.setRoomName(bufferedReader.readLine());
             System.out.print("Enter The Room Type                   : ");
             room.setRoomType(bufferedReader.readLine());
-            System.out.print("Enter The Room Capacity               : ");
-            try{
-            room.setRoomCapacity(Integer.parseInt(bufferedReader.readLine()));
-            }catch (NumberFormatException ex){
-                System.out.println("Invalid Input");
-                System.out.print("Please Enter valid Input : ");
-                room.setRoomCapacity(Integer.parseInt(bufferedReader.readLine()));
-            }finally {
-                System.out.println("Great !! you have Entered Valid input");
-            }
+            int roomCapacity=-1;
+            do {
+                try{
+                    System.out.print("Enter The Room Capacity               : ");
+                    roomCapacity=(Integer.parseInt(bufferedReader.readLine()));
+                    room.setRoomCapacity(roomCapacity);
+                }catch (NumberFormatException ex){
+                    System.out.println("Invalid Input");
+                }finally {
+                    if (roomCapacity!=-1){
+                        System.out.println("Great !! you have Entered Valid input");
+                    }else {
+                        System.out.println("Sorry !! you have Entered InValid input");
+                    }
+                }
+            }while(roomCapacity==-1);
             System.out.println("\nEnter the Price Details           : ");
             System.out.print("Enter The Price Id                    : ");
             priceId.append(bufferedReader.readLine());
             room.setPriceId(priceId.toString());
             System.out.print("Enter The Currency                    : ");
             room.setCurrency(bufferedReader.readLine());
-            System.out.print("Enter The Total Amount                : ");
-            try{
-                room.setTotalAmount(Double.parseDouble(bufferedReader.readLine()));
-            }catch (NumberFormatException ex){
-                System.out.println("Invalid Input");
-                System.out.print("Please Enter valid Total Amount : ");
-                room.setTotalAmount(Double.parseDouble(bufferedReader.readLine()));
-            }finally {
-                System.out.println("Great !! you have Entered Valid input");
-            }
+            do{
+                try{
+                    System.out.print("Enter The Total Amount                : ");
+                    room.setTotalAmount(Double.parseDouble(bufferedReader.readLine()));
+                }catch (NumberFormatException ex){
+                    System.out.println(ex.fillInStackTrace());
+                }finally {
+                    System.out.println("Great !! you have Entered Valid input");
+                }
+            }while (room.getTotalAmount()<=0.0);
 
             data.put(room.getRoomId(),room);
         }
